@@ -1,0 +1,60 @@
+* {
+    font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+}
+.mb1 {
+    margin-bottom: 1rem;
+}
+.mb5 {
+    margin-bottom: 0.5rem;
+}
+.logintext {
+    font-size: xx-large;
+    font-weight: bold;
+}
+.asdasda {
+    font-size: x-large;
+}
+.asdasdaa {
+    font-size: large;
+}
+.bold {
+    font-weight: bold;
+}
+.tc {
+    margin-left: auto;
+    margin-right: auto;
+}
+.ctr {
+position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.textctr {
+    text-align: center;
+}
+.login {
+    background-color: #04AA6D;
+    border: none;
+    border-radius: 0.25rem;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem 0.75rem;
+}
+.login:hover {
+    background-color: #4AA081;
+}
+.login2 {
+    background-color: #AA0441;
+    border: none;
+    border-radius: 0.25rem;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem 0.75rem;
+}
+
+.login2:hover {
+    background-color: #A04A69;
+}
