@@ -43,7 +43,7 @@ CREATE TABLE correct_answer (
     question_id TEXT,
     answer TEXT, -- can be B, lots of possibilities
     FOREIGN KEY(question_id) REFERENCES question(id)
-)
+);
 
 -- Skill tracking
 -- Pretty self-explanatory.

@@ -134,7 +134,7 @@ def callback():
     # Create a user in our db with the information provided
     # by Google
     user = User(
-        id_=unique_id, name=users_name, email=users_email, profile_pic=picture, tokens=0
+        id_=unique_id, name=users_name, email=users_email, profile_pic=picture
     )
 
     # Doesn't exist? Add to database
