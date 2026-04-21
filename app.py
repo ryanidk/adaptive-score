@@ -107,8 +107,7 @@ def unauthorized():
 @app.route("/")
 def index():
     if current_user.is_authenticated:
-        return render_template("index.html", name=current_user.name, email=current_user.email,
-                               tokens=current_user.tokens)
+        return render_template("index.html", name=current_user.name, email=current_user.email)
     else:
         return render_template('login.html')
 
