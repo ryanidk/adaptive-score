@@ -75,10 +75,10 @@ try:
 
     # Also, initialize all the questions
     # Load english and math questions
-    with open("question_scraping/english.json", "r") as e:
+    with open("scripts/question_scraping/english.json", "r") as e:
         english_bank = json.load(e)
 
-    with open("question_scraping/math.json", "r") as m:
+    with open("scripts/question_scraping/math.json", "r") as m:
         math_bank = json.load(m)
 
     # Loop over each question in the bank and add it to the database
