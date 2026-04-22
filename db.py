@@ -1,7 +1,6 @@
 # http://flask.pocoo.org/docs/1.0/tutorial/database/
 import sqlite3
 
-import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 
@@ -30,12 +29,11 @@ def init_db():
         db.executescript(f.read().decode("utf8"))
 
 
-@click.command("init-db")
-@with_appcontext
-def init_db_command():
+def init_db_command(app):
     """Clear the existing data and create new tables."""
-    init_db()
-    click.echo("Initialized the database.")
+    with app.app_context():
+        init_db()
+        print("Initialized the database")
 
 
 def init_app(app):

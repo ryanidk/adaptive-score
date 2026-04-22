@@ -71,7 +71,7 @@ login_manager.init_app(app)
 
 # Set up the database if it has not already been initialized. This is pretty naive.
 try:
-    init_db_command()
+    init_db_command(app)
 
     # Also, initialize all the questions
     # Load english and math questions
@@ -87,6 +87,7 @@ try:
 
     for math_question in math_bank:
         process_question(math_question, "math")
+
 except sqlite3.OperationalError:
     # Assume it's already been created
     pass
