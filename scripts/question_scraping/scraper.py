@@ -98,6 +98,10 @@ for question in temp_math_questions:
         print("Question OLD " + question["questionId"])
 
 
+# Quick count the banks
+print(f"Math questions: {len(math_question_bank)}")
+print(f"English questions: {len(english_question_bank)}")
+
 # Dump the question banks to their files
 with open("math.json", "w") as f:
     json.dump(math_question_bank, f)
