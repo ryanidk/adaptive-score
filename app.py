@@ -13,7 +13,7 @@ There are platforms that do this, but they can be expensive ($100+/month) or lim
 All required libraries are in requirements.txt.
 
 Due date: May 28, 2026.
-Full log can be found in the assignment on Google Classroom.
+Full log can be found in the assignment on Google Classroom and through commit history on Github.
 """
 
 # Built-in python libraries
@@ -88,7 +88,7 @@ try:
     for math_question in math_bank:
         process_question(app, math_question, "math")
 
-    print("Finished processng questions")
+    print("Finished processing questions")
 
 except sqlite3.OperationalError:
     # Assume it's already been created
@@ -103,10 +103,10 @@ except sqlite3.OperationalError:
 def load_user(user_id):
     """
     Flask-Login helper to retrieve a user from the database.
-    Arguments:
-        - user_id: The user id that was gotten from the OAuth2 authentication
+    Args:
+        user_id: The user id that was gotten from the OAuth2 authentication
     Returns:
-        - User (object): The user object from the user ID.
+        User (object): The user object from the user ID.
     """
     return User.get(user_id)
 
@@ -117,8 +117,8 @@ def unauthorized():
     """
     Handles the 403 unauthorized page, essentially if the user is trying to access a page without being logged in.
     Returns:
-        - str: Unauthorized string
-        - response_code (int): 403, the web response code for unauthorized.
+        str: Unauthorized string
+        response_code (int): 403, the web response code for unauthorized.
     """
     return "Unauthorized", 403
 

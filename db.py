@@ -1,4 +1,8 @@
-# http://flask.pocoo.org/docs/1.0/tutorial/database/
+"""
+TODO add header
+https://flask.pocoo.org/docs/1.0/tutorial/database/
+"""
+
 import sqlite3
 
 from flask import current_app, g

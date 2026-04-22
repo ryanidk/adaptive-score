@@ -3,7 +3,7 @@ College board SAT Question Bank Parser
 ICS3U-01
 Ryan
 From the scraped SAT question bank JSONs, this program parses it into the database.
-Apr 22, 2026
+Last modified: Apr 22, 2026
 """
 
 # Json library import - to import json
@@ -19,10 +19,10 @@ def process_question(app, question, section):
     It fills out all fields (depending on the question type).
     It considers things like if there is no stimulus (i.e. for math questions) and whether the question is multiple choice or not.
 
-    Arguments:
-        - app: Needed for context, the flask app.
-        - question (dict): The dictionary object with the question.
-        - section (str): The question section, whether "math" or "english"
+    Args:
+        app: Needed for context, the flask app.
+        question (dict): The dictionary object with the question.
+        section (str): The question section, whether "math" or "english"
     """
 
     # Work in app context

@@ -42,13 +42,14 @@ auth_blueprint = Blueprint('auth', __name__, template_folder='../templates')
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 
+
 # Utility functions
 def get_google_provider_cfg():
     """
     Returns the json for the Google OAuth2 config. This was taken from the Real Python tutorial.
 
     Returns:
-        - (dict) The OpenID configuration as a dictionary
+        (dict): The OpenID configuration as a dictionary
     """
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
@@ -61,7 +62,7 @@ def login():
     Handles the login route, where the user can log in with their Google account to then be redirected back to the home page.
 
     Returns:
-        - (redirect): Redirects to the Google authorization endpoint
+        (redirect): Redirects to the Google authorization endpoint
     """
 
     # Find out what URL to hit for Google login
@@ -85,7 +86,7 @@ def callback():
     We also authenticate the request to make sure they're not spoofing an email.
 
     Returns:
-        - (redirect): Redirects to the index page
+        (redirect): Redirects to the index page
     """
 
     # Get authorization code Google sent back to you
@@ -152,8 +153,6 @@ def callback():
     return redirect(url_for("index"))
 
 
-
-
 @auth_blueprint.route("/logout")
 @login_required
 def logout():
@@ -163,7 +162,7 @@ def logout():
     whether they are logged in or not.
 
     Returns:
-        - (redirect): Redirects to the unauthenticated index page.
+        (redirect): Redirects to the unauthenticated index page.
     """
 
     logout_user()
