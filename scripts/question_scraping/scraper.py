@@ -3,7 +3,7 @@ College board SAT Question Bank Scraper
 ICS3U-01
 Ryan
 This program scrapes the official SAT question bank and puts it in a JSON.
-Apr 16, 2026
+Apr 22, 2026
 """
 
 # Expect this to take like an hour to scrape all the questions.
@@ -71,27 +71,31 @@ temp_math_questions = requests.post(
 
 # Loop over each question and scrape it individually
 for question in temp_math_questions:
-    # The json data we send is the "external id" of the question
-    question_json_data = {
-        'external_id': question['external_id'],
-    }
+    # There's a chance that the question is old, so only parse the question if it actually has an external ID.
+    if question['external_id'] is not None:
+        # The json data we send is the "external id" of the question
+        question_json_data = {
+            'external_id': question['external_id'],
+        }
 
-    question_response = requests.post(
-        'https://qbank-api.collegeboard.org/msreportingquestionbank-prod/questionbank/digital/get-question',
-        json=question_json_data,
-    ).json()
+        question_response = requests.post(
+            'https://qbank-api.collegeboard.org/msreportingquestionbank-prod/questionbank/digital/get-question',
+            json=question_json_data,
+        ).json()
 
-    all_question_info = question | question_response
+        all_question_info = question | question_response
 
-    # Note to self: sometimes the math questions will not have an answerOptions key. This is a free response.
-    # In all cases, correct_answers are stored in the correct_answer key. For multiple choice, it's A, B, C, or D.
+        # Note to self: sometimes the math questions will not have an answerOptions key. This is a free response.
+        # In all cases, correct_answers are stored in the correct_answer key. For multiple choice, it's A, B, C, or D.
 
-    # Append the question info to the question bank
-    math_question_bank.append(all_question_info)
+        # Append the question info to the question bank
+        math_question_bank.append(all_question_info)
 
-    # Debug
-    print("Succesfully parsed Id " + all_question_info["questionId"])
-
+        # Debug
+        print("Succesfully parsed Id " + all_question_info["questionId"])
+    else:
+        # Debug
+        print("Question OLD " + question["questionId"])
 
 
 # Dump the question banks to their files
