@@ -83,10 +83,12 @@ try:
 
     # Loop over each question in the bank and add it to the database
     for eng_question in english_bank:
-        process_question(eng_question, "english")
+        process_question(app, eng_question, "english")
 
     for math_question in math_bank:
-        process_question(math_question, "math")
+        process_question(app, math_question, "math")
+
+    print("Finished processng questions")
 
 except sqlite3.OperationalError:
     # Assume it's already been created

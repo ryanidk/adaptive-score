@@ -35,7 +35,7 @@ CREATE TABLE question (
 -- Multiple choice questions
 -- Most of these fields are pretty self-explanatory.
 CREATE TABLE question_option (
-    id TEXT PRIMARY KEY,
+    id TEXT,
     question_id TEXT,
     idx INTEGER, -- 0=A, 1=B, 2=C, 3=D, indexes of the answer
     content TEXT,
