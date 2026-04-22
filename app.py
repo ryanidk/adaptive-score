@@ -47,6 +47,8 @@ from models.user import User
 
 from routes.auth import auth_blueprint
 
+from scripts.question_parsing import process_question
+
 
 # Load dotenv, for use in constants. load_dotenv puts it in os.environ
 load_dotenv()
@@ -70,6 +72,21 @@ login_manager.init_app(app)
 # Set up the database if it has not already been initialized. This is pretty naive.
 try:
     init_db_command()
+
+    # Also, initialize all the questions
+    # Load english and math questions
+    with open("question_scraping/english.json", "r") as e:
+        english_bank = json.load(e)
+
+    with open("question_scraping/math.json", "r") as m:
+        math_bank = json.load(m)
+
+    # Loop over each question in the bank and add it to the database
+    for eng_question in english_bank:
+        process_question(eng_question, "english")
+
+    for math_question in math_bank:
+        process_question(math_question, "math")
 except sqlite3.OperationalError:
     # Assume it's already been created
     pass

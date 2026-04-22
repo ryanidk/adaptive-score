@@ -12,15 +12,7 @@ import json
 # Internal class import - questions, multiple choice options, correct answers
 from models.questions import Question, MultipleChoiceOption, CorrectAnswer
 
-# Load english and math questions
-with open("question_scraping/english.json", "r") as e:
-    english_bank = json.load(e)
-
-with open("question_scraping/math.json", "r") as m:
-    math_bank = json.load(m)
-
-
-# Utility function to process questions
+# Function to process questions
 def process_question(question, section):
     """
     Processes questions and adds them to the database.
@@ -51,9 +43,3 @@ def process_question(question, section):
             MultipleChoiceOption.create(option["id"], question["questionId"], idx, option["content"])
 
 
-# Loop over each question in the bank and add it to the database
-for eng_question in english_bank:
-    process_question(eng_question, "english")
-
-for math_question in math_bank:
-    process_question(math_question, "math")
