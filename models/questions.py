@@ -110,16 +110,19 @@ class CorrectAnswer:
     def get_by_question_id(question_id):
         # TODO change this to only have one return
         db = get_db()
-        answer = db.execute(
+        answers_db = db.execute(
             "SELECT * FROM correct_answer WHERE question_id = ?", (question_id,)
-        ).fetchone()
-        if not answer:
+        ).fetchall()
+        if len(answers_db) == 0:
             return None
 
-        answer = CorrectAnswer(
-            a_id=answer[0], question_id=answer[1], answer=answer[2]
-        )
-        return answer
+        answers = []
+        for temp_answer in answers_db:
+            answer = CorrectAnswer(
+                a_id=temp_answer[0], question_id=temp_answer[1], answer=temp_answer[2]
+            )
+            answers.append(answer)
+        return answers
 
     @staticmethod
     def create(question_id, answer):
