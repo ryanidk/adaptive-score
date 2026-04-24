@@ -23,7 +23,6 @@ import json
 from dotenv import load_dotenv
 from models.user import User, Skill
 
-
 # Load dotenv, for use in constants. load_dotenv puts it in os.environ
 load_dotenv()
 
@@ -34,13 +33,11 @@ GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
 
-
 # Set up blueprint
 auth_blueprint = Blueprint('auth', __name__, template_folder='../templates')
 
 # Set up the OAuth2 client which will be used for authentication.
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
-
 
 
 # Utility functions
@@ -52,7 +49,6 @@ def get_google_provider_cfg():
         (dict): The OpenID configuration as a dictionary
     """
     return requests.get(GOOGLE_DISCOVERY_URL).json()
-
 
 
 # Routes

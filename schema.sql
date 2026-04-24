@@ -58,6 +58,7 @@ CREATE TABLE skills (
     skill TEXT,
     attempts INTEGER DEFAULT 0,
     correct_attempts INTEGER DEFAULT 0,
+    difficulty TEXT DEFAULT 'E', -- either E, M, or H, represents the current user difficulty, defaults to easy
     PRIMARY KEY(user_id, skill)
 );
 

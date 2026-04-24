@@ -17,19 +17,13 @@ Full log can be found in the assignment on Google Classroom and through commit h
 """
 
 # Built-in python libraries
-# Json - to parse json files
-# Os - to load environment variables
-# Sqlite3 - to interact with SQLite3 databases
+# Mainly json and sqlite3 to parse, os to get environment variables
 import json
 import os
 import sqlite3
 
 # Third party libraries
-# Flask - the web server itself
-# Flask_login - a library providing the authentication system, used to implement Google Oauth2
-# Oauthlib - to handle Oauth2
-# Requests - create requests, including for authentication
-# Dotenv - load .env file
+# Flask is the web server, flask_login and oauthlib handle auth, requests sends requests, dotenv loads the .env file
 from flask import Flask, redirect, request, url_for, render_template, jsonify
 from flask_login import (
     LoginManager,
@@ -44,19 +38,14 @@ from dotenv import load_dotenv
 # Internal imports, used for models, database, and blueprints
 from db import init_db_command
 from models.user import User
-
 from routes.auth import auth_blueprint
-
 from scripts.question_parsing import process_question
-
 
 # Load dotenv, for use in constants. load_dotenv puts it in os.environ
 load_dotenv()
 
-
 # Super admin email. There is currently only one and I hardcoded this in .env for ease of use.
 SUPER_ADMIN_EMAIL = os.environ.get("SUPER_ADMIN_EMAIL", None)
-
 
 # Setup flask app
 app = Flask(__name__)
@@ -67,7 +56,6 @@ app.secret_key = os.environ.get("SECRET_KEY", None)
 # Set up user session management (taken from real python tutorial)
 login_manager = LoginManager()
 login_manager.init_app(app)
-
 
 # Set up the database if it has not already been initialized. This is pretty naive.
 try:
@@ -95,9 +83,6 @@ except sqlite3.OperationalError:
     pass
 
 
-
-
-
 # -------- Utility functions --------
 @login_manager.user_loader
 def load_user(user_id):
@@ -111,7 +96,6 @@ def load_user(user_id):
     return User.get(user_id)
 
 
-
 @login_manager.unauthorized_handler
 def unauthorized():
     """
@@ -123,7 +107,6 @@ def unauthorized():
     return "Unauthorized", 403
 
 
-
 @app.route("/")
 def index():
     if current_user.is_authenticated:
@@ -132,11 +115,9 @@ def index():
         return render_template('login.html')
 
 
-
-
 # BLUEPRINT REGISTRATION
 app.register_blueprint(auth_blueprint)
 
 if __name__ == "__main__":
-   # app.run(host='0.0.0.0') # production use
-   app.run(ssl_context="adhoc") # testing
+    # app.run(host='0.0.0.0') # production use
+    app.run(ssl_context="adhoc")  # testing
