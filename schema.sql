@@ -1,8 +1,10 @@
--- SQL Schema for Adaptive Score
--- ICS3U-01
--- Ryan
--- This file provides the SQL schema for the app, and all the tables which will be created on db init.
--- Apr 20, 2026 (schema last modified)
+/*
+SQL Schema for Adaptive Score
+ICS3U-01
+Ryan
+This file provides the SQL schema for the app, and all the tables which will be created on db init.
+Apr 20, 2026 (schema last modified)
+*/
 
 -- Users
 -- Contains a unique id, their name, email and profile picture (from Google)

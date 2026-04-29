@@ -3,7 +3,7 @@ User classes: User and Skill
 ICS3U-01
 Ryan
 This file represents the User and Skill classes used in the app
-Last modified: Apr 24, 2026
+Last modified: Apr 29, 2026
 """
 
 # Flask login for authentication, and db to access the database
@@ -181,6 +181,40 @@ class Skill:
             skills.append(skill)
 
         return skills
+
+    @staticmethod
+    def get_skill(user_id, skill):
+        """
+        Static method: Gets an individual Skill object for a user.
+
+        Args:
+            user_id (str): The user ID to fetch the skills from
+            skill (str): The skill ID to fetch
+
+        Returns:
+            return_skill (Skill): A skill object representing the user skill. Can be none if it doesn't exist.
+        """
+
+        # Get the database
+        db = get_db()
+
+        # Fetch the skills
+        db_skill = db.execute(
+            "SELECT * FROM skills WHERE user_id = ? AND skill = ?", (user_id, skill,)
+        ).fetchone()
+
+        # Only create the skill object if it actually exists. Otherwise, just make it explicitly none.
+
+        if db_skill:
+            return_skill = Skill(
+                user_id=db_skill[0], skill=db_skill[1], attempts=db_skill[2], correct_attempts=db_skill[3],
+                difficulty=db_skill[4]
+            )
+        else:
+            return_skill = None
+
+        return return_skill
+
 
     @staticmethod
     def update_attempts(user_id, skill, correct_answer):
