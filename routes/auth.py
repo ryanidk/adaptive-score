@@ -4,7 +4,7 @@ ICS3U-01
 Ryan
 These routes handle authentication through Google OAuth2 for the program.
 The Google auth system source: https://realpython.com/flask-google-login/
-Apr 20, 2026
+Last Modified: Apr 20, 2026
 """
 
 # Necessary imports
