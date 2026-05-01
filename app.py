@@ -38,8 +38,9 @@ from dotenv import load_dotenv
 # Internal imports, used for models, database, and blueprints
 from db import init_db_command
 from models.user import User
-from routes.auth import auth_blueprint
 from scripts.question_parsing import process_question
+from routes.auth import auth_blueprint
+from routes.adaptive_practice import adaptive_practice_blueprint
 
 # Load dotenv, for use in constants. load_dotenv puts it in os.environ
 load_dotenv()
@@ -117,6 +118,7 @@ def index():
 
 # BLUEPRINT REGISTRATION
 app.register_blueprint(auth_blueprint)
+app.register_blueprint(adaptive_practice_blueprint)
 
 if __name__ == "__main__":
     # app.run(host='0.0.0.0') # production use
