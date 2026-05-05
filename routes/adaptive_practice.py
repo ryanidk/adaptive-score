@@ -28,6 +28,7 @@ from services.adaptive_testing import get_random_question_for_user, process_resp
 # Set up blueprint
 adaptive_practice_blueprint = Blueprint('adaptive_practice', __name__, template_folder='../templates')
 
+
 # Adaptive practice routes
 @adaptive_practice_blueprint.route("/practice", methods=['GET', 'POST'])
 @login_required
@@ -69,7 +70,12 @@ def practice():
                 option_C = sanitize_option(options[2].content)
                 option_D = sanitize_option(options[3].content)
 
-                practice_response = render_template("englishmcq.html", name=current_user.name, email=current_user.email, stimulus=user_question.stimulus, skill=user_question.skill_description, difficulty=user_question.difficulty, stem=user_question.stem, option_A=option_A, option_B=option_B, option_C=option_C, option_D=option_D)
+                practice_response = render_template("englishmcq.html", name=current_user.name, email=current_user.email,
+                                                    stimulus=user_question.stimulus,
+                                                    skill=user_question.skill_description,
+                                                    difficulty=user_question.difficulty, stem=user_question.stem,
+                                                    option_A=option_A, option_B=option_B, option_C=option_C,
+                                                    option_D=option_D)
             elif user_question.section.lower() == "math" and user_question.type.lower() == "mcq":
                 # Math multiple choice question
                 options = MultipleChoiceOption.get_options_by_question_id(user_question.id)
@@ -95,4 +101,3 @@ def practice():
 
     # Return practice response
     return practice_response
-
