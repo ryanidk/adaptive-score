@@ -70,7 +70,7 @@ def practice():
                 option_D = sanitize_option(options[3].content)
 
                 practice_response = render_template("englishmcq.html", name=current_user.name, email=current_user.email, stimulus=user_question.stimulus, skill=user_question.skill_description, difficulty=user_question.difficulty, stem=user_question.stem, option_A=option_A, option_B=option_B, option_C=option_C, option_D=option_D)
-            if user_question.section.lower() == "math" and user_question.type.lower() == "mcq":
+            elif user_question.section.lower() == "math" and user_question.type.lower() == "mcq":
                 # Math multiple choice question
                 options = MultipleChoiceOption.get_options_by_question_id(user_question.id)
 
