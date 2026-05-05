@@ -87,7 +87,11 @@ def practice():
                                                     option_A=option_A, option_B=option_B, option_C=option_C,
                                                     option_D=option_D)
 
-            # TODO handle math SPR
+            elif user_question.section.lower() == "math" and user_question.type.lower() == "spr":
+                # Just render the template
+                practice_response = render_template("mathspr.html", name=current_user.name, email=current_user.email,
+                                                    skill=user_question.skill_description,
+                                                    difficulty=user_question.difficulty, stem=user_question.stem)
 
     # Return practice response
     return practice_response
