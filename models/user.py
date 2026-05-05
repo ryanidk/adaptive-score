@@ -11,9 +11,9 @@ from flask_login import UserMixin
 from db import get_db
 
 # A list of all possible skills:
-english_skills = ['INF', 'TSP', 'FSS', 'BOU', 'COE', 'CID', 'WIC', 'CTC', 'TRA', 'SYN']
-math_skills = ['P.B.', 'S.B.', 'Q.G.', 'H.E.', 'Q.D.', 'Q.F.', 'H.A.', 'H.B.', 'Q.B.', 'Q.A.', 'Q.E.', 'S.A.', 'P.A.',
-               'H.C.', 'S.C.', 'Q.C.', 'H.D.', 'S.D.', 'P.C.']
+english_skills = {'INF', 'TSP', 'FSS', 'BOU', 'COE', 'CID', 'WIC', 'CTC', 'TRA', 'SYN'}
+math_skills = {'P.B.', 'S.B.', 'Q.G.', 'H.E.', 'Q.D.', 'Q.F.', 'H.A.', 'H.B.', 'Q.B.', 'Q.A.', 'Q.E.', 'S.A.', 'P.A.',
+               'H.C.', 'S.C.', 'Q.C.', 'H.D.', 'S.D.', 'P.C.'}
 
 
 class User(UserMixin):
