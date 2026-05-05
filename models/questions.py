@@ -3,7 +3,7 @@ Questions classes: Question, Multiple choice answer, Correct answer
 ICS3U-01
 Ryan
 This file represents the question, multiple choice answer, and correct answer classes that are referred to in the app.
-Last modified: Apr 22, 2026
+Last modified: May 5, 2026
 """
 
 # Import database class
@@ -119,8 +119,24 @@ class Question:
                 stem=question[8], rationale=question[9]
             )
         else:
-            # We are explicitly saying that it is None just in case.
-            question = None
+            # Try again with a different difficulty
+            new_question = db.execute(
+                "SELECT * FROM question WHERE skill = ? ORDER BY RANDOM() LIMIT 1",
+                (skill,)
+            ).fetchone()
+
+            # If there's a new question try with the new difficulty
+            if new_question:
+                question = Question(
+                    q_id=new_question[0], college_board_id=new_question[1], section=new_question[2],
+                    q_type=new_question[3],
+                    skill=new_question[4], skill_description=new_question[5], difficulty=new_question[6],
+                    stimulus=new_question[7],
+                    stem=new_question[8], rationale=new_question[9]
+                )
+            else:
+                # We are explicitly saying that it is None just in case.
+                question = None
 
         return question
 
