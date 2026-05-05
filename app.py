@@ -122,4 +122,4 @@ app.register_blueprint(adaptive_practice_blueprint)
 
 if __name__ == "__main__":
     # app.run(host='0.0.0.0') # production use
-    app.run(ssl_context="adhoc")  # testing
+    app.run(ssl_context="adhoc", debug=True)  # testing

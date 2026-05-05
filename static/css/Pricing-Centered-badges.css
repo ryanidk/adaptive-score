@@ -69,3 +69,7 @@
         .instructions-box {
             line-height: 1.6;
         }
+
+        .sr-only {
+            display: none;
+        }

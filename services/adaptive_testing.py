@@ -4,11 +4,14 @@ ICS3U-01
 Ryan
 This program contains functions for adaptive testing, such as getting a random question based on any random skill.
 It also handles question submission.
-Last modified: Apr 29, 2026
+Last modified: May 5, 2026
 """
 
 # Random import to fetch random skill
 import random
+
+# Regex import to string replace
+import re
 
 # Internal model imports (variables and classes)
 from models.user import english_skills, math_skills
@@ -18,6 +21,27 @@ from models.questions import Question, CorrectAnswer
 
 
 # All functions
+
+def sanitize_option(option_text):
+    """
+    Sanitizes an option by removing the HTML paragraph at the start.
+
+    Args:
+        option_text (str): The text to sanitize with the HTML
+
+    Returns:
+        sanitized_text (str): The sanitized text without the beginning paragraph mark
+    """
+
+    # Remove start paragraph and also consider if there are any other characters for style, etc.
+    sanitized_text = re.sub(r'^<p\s+[^>]*>', '', option_text)
+
+    # Replace ending keyword
+    sanitized_text = sanitized_text.replace('</p>', '').strip()
+
+    return sanitized_text
+
+
 def get_random_question_for_user(user_id):
     """
     Gets a random question for the user based on a random skill and their current difficulty.
@@ -30,15 +54,15 @@ def get_random_question_for_user(user_id):
     """
 
     # First, pick a random skill to test
-    random_skill = random.choice(english_skills | math_skills)
+    random_skill = random.choice(list(english_skills | math_skills))
 
     # Get the user's difficulty in that skill
-    user_difficulty = Skill.get_skill(user_id, random_skill)
+    user_skill = Skill.get_skill(user_id, random_skill)
 
     # Only continue with the next steps if the skill actually exists
-    if user_difficulty is not None:
+    if user_skill is not None:
         # This can be None as well. We are just trying to avoid SQL errors passing null arguments.
-        question = Question.get_by_skill_and_difficulty(random_skill, user_difficulty)
+        question = Question.get_by_skill_and_difficulty(random_skill, user_skill.difficulty)
     else:
         # Explicitly set the question to None anyway
         question = None
