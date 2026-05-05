@@ -34,7 +34,7 @@ def sanitize_option(option_text):
     """
 
     # Remove start paragraph and also consider if there are any other characters for style, etc.
-    sanitized_text = re.sub(r'^<p\s+[^>]*>', '', option_text)
+    sanitized_text = re.sub(r'^<p\s*[^>]*>', '', option_text)
 
     # Replace ending keyword
     sanitized_text = sanitized_text.replace('</p>', '').strip()
