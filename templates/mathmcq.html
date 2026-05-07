@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/Pricing-Centered-badges.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/Pricing-Centered-icons.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/mml-svg.js"></script>
+    <script src="https://www.desmos.com/api/v1.12/calculator.js?apiKey=8a352ca4ff3140ea9a5830bb269b45d8"></script>
 </head>
 
 <body>
@@ -37,56 +38,62 @@
     </div>
 </nav>
 <section class="py-4">
-    <div class="container">
+    <div class="container-fluid">
         <form id="response" action="#" method="POST">
             <input type="hidden" id="question_id" name="question_id" value="{{ question_id }}">
-            <div class="mx-auto" style="max-width: 800px; min-height: 70vh;">
-                <div class="p-4">
-                    <div class="mb-4">
-                        <div class="text-muted small mb-1">
-                            Skill: {{ skill }} | Difficulty: {{ difficulty }}
-                        </div>
-                        <p class="fs-5 mb-0">
-                            {{ stem | safe }}
-                        </p>
-                    </div>
-                    <div class="d-grid gap-2">
+            <div class="row g-0" style="min-height: 80vh;">
+                <div class="col-lg-6 border-end">
 
-                        <label class="choice-box p-3">
-                            <input type="radio" name="answer" value="A">
-                            <span class="choice-letter">A</span>
-                            <span>{{ option_A | safe }}</span>
-                        </label>
-
-                        <label class="choice-box p-3">
-                            <input type="radio" name="answer" value="B">
-                            <span class="choice-letter">B</span>
-                            <span>{{ option_B | safe }}</span>
-                        </label>
-
-                        <label class="choice-box p-3">
-                            <input type="radio" name="answer" value="C">
-                            <span class="choice-letter">C</span>
-                            <span>{{ option_C | safe }}</span>
-                        </label>
-
-                        <label class="choice-box p-3">
-                            <input type="radio" name="answer" value="D">
-                            <span class="choice-letter">D</span>
-                            <span>{{ option_D | safe }}</span>
-                        </label>
-
-                        <div id="errorMsg" class="text-danger small mt-2"></div>
-
-
-                    </div>
-                    <div class="mt-4 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary px-4">
-                            Submit
-                        </button>
-                    </div>
                 </div>
 
+                <div class="col-lg-6">
+                    <div class="p-4" style="max-width: 700px; margin: auto;">
+                        <div class="mb-4">
+                            <div class="text-muted small mb-1">
+                                Skill: {{ skill }} | Difficulty: {{ difficulty }}
+                            </div>
+                            <p class="fs-5 mb-0">
+                                {{ stem | safe }}
+                            </p>
+                        </div>
+                        <div class="d-grid gap-2">
+
+                            <label class="choice-box p-3">
+                                <input type="radio" name="answer" value="A">
+                                <span class="choice-letter">A</span>
+                                <span>{{ option_A | safe }}</span>
+                            </label>
+
+                            <label class="choice-box p-3">
+                                <input type="radio" name="answer" value="B">
+                                <span class="choice-letter">B</span>
+                                <span>{{ option_B | safe }}</span>
+                            </label>
+
+                            <label class="choice-box p-3">
+                                <input type="radio" name="answer" value="C">
+                                <span class="choice-letter">C</span>
+                                <span>{{ option_C | safe }}</span>
+                            </label>
+
+                            <label class="choice-box p-3">
+                                <input type="radio" name="answer" value="D">
+                                <span class="choice-letter">D</span>
+                                <span>{{ option_D | safe }}</span>
+                            </label>
+
+                            <div id="errorMsg" class="text-danger small mt-2"></div>
+
+
+                        </div>
+                        <div class="mt-4 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary px-4">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </form>
     </div>

@@ -5,135 +5,72 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Adaptive Practice - Adaptive Score</title>
-    <meta name="description" content="Adaptive Score is an adaptive SAT preparation platform with adaptive practice that adjusts question difficulty based on performance and diagnostics, as well as generate full-length tests with vocabulary.">
+    <meta name="description"
+          content="Adaptive Score is an adaptive SAT preparation platform with adaptive practice that adjusts question difficulty based on performance and diagnostics, as well as generate full-length tests with vocabulary.">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/Pricing-Centered-badges.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/Pricing-Centered-icons.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/mml-svg.js"></script>
+    <script src="https://www.desmos.com/api/v1.12/calculator.js?apiKey=8a352ca4ff3140ea9a5830bb269b45d8"></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md sticky-top py-3 navbar-shrink" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/">
+<nav class="navbar navbar-expand-md sticky-top py-3 navbar-shrink" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/">
                 <span class="bs-icon-sm bs-icon-circle bs-icon-primary shadow d-flex justify-content-center align-items-center me-2 bs-icon">
-                    <svg class="bi bi-check-circle" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                    <svg class="bi bi-check-circle" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                         fill="currentColor" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
                         <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"></path>
                     </svg>
                 </span>
-                <span>Adaptive Score</span>
-            </a>
+            <span>Adaptive Score</span>
+        </a>
 
-            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-1">
-                <span class="visually-hidden">Toggle navigation</span>
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-1">
+            <span class="visually-hidden">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="/"></a></li>
-                </ul>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="/"></a></li>
+            </ul>
 
-                <h1 class="fw-bold"></h1>
-                <p class="navbar-text" style="margin-right: 30px;margin-bottom: 0px;">{{ name }} ({{ email }})</p>
-                <a class="btn btn-primary shadow" role="button" href="/logout">Log out</a>
-            </div>
+            <h1 class="fw-bold"></h1>
+            <p class="navbar-text" style="margin-right: 30px;margin-bottom: 0px;">{{ name }} ({{ email }})</p>
+            <a class="btn btn-primary shadow" role="button" href="/logout">Log out</a>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <section class="py-4">
-        <div class="container-fluid">
-            <form id="freeResponseForm" action="#" method="POST">
-                <input type="hidden" id="question_id" name="question_id" value="{{ question_id }}">
-                <div class="row g-0" style="min-height: 80vh;">
+<section class="py-4">
+    <div class="container-fluid">
+        <form id="freeResponseForm" action="#" method="POST">
+            <input type="hidden" id="question_id" name="question_id" value="{{ question_id }}">
+            <div class="row g-0" style="min-height: 80vh;">
 
-                    <div class="col-lg-6 border-end">
-                        <div class="p-4 instructions-box" style="max-width: 760px; margin: auto;">
+                <div class="col-lg-6 border-end">
 
-                            <h4 class="fw-bold mb-4">Student-produced response directions</h4>
+                </div>
 
-                            <ul class="mb-5">
-                                <li>If you find <strong>more than one correct answer</strong>, enter only one answer.</li>
-                                <li>You can enter up to 5 characters for a <strong>positive answer</strong> and up to 6 characters, including the negative sign, for a <strong>negative answer</strong>.</li>
-                                <li>If your answer is a <strong>fraction</strong> that doesn’t fit in the provided space, enter the decimal equivalent.</li>
-                                <li>If your answer is a <strong>decimal</strong> that doesn’t fit in the provided space, enter it by truncating or rounding at the fourth digit.</li>
-                                <li>If your answer is a <strong>mixed number</strong>, enter it as an improper fraction or its decimal equivalent.</li>
-                                <li>Don’t enter <strong>symbols</strong> such as a percent sign, comma, or dollar sign.</li>
-                            </ul>
+                <div class="col-lg-6">
+                    <div class="p-4" style="max-width: 760px; margin: auto;">
 
-                            <div class="text-center">
-                                <h6 class="mb-2">Examples:</h6>
+                        <div class="mb-4">
+                            <div class="text-muted small mb-2">Skill: {{ skill }} | Difficulty: {{ difficulty }}</div>
 
-                                <div class="table-responsive">
-                                    <table class="table table-bordered align-middle bg-white">
-                                        <thead>
-                                            <tr>
-                                                <th>Answer</th>
-                                                <th>Acceptable ways to enter answer</th>
-                                                <th>Unacceptable: will NOT receive credit</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>3.5</td>
-                                                <td>
-                                                    3.5<br>
-                                                    3.50<br>
-                                                    7/2
-                                                </td>
-                                                <td>
-                                                    31/2<br>
-                                                    3 1/2
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>2/3</td>
-                                                <td>
-                                                    2/3<br>
-                                                    .6666<br>
-                                                    .667
-                                                </td>
-                                                <td>
-                                                    0.66<br>
-                                                    .66<br>
-                                                    0.67
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>-1/3</td>
-                                                <td>
-                                                    -1/3<br>
-                                                    -.3333
-                                                </td>
-                                                <td>
-                                                    -.33<br>
-                                                    -0.33
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
+                            <p class="mb-0">
+                                {{ stem | safe }}
+                            </p>
                         </div>
-                    </div>
 
-                    <div class="col-lg-6">
-                        <div class="p-4" style="max-width: 760px; margin: auto;">
-
-                            <div class="mb-4">
-                                <div class="text-muted small mb-2">Skill: {{ skill }} | Difficulty: {{ difficulty }}</div>
-
-                                <p class="mb-0">
-                                    {{ stem | safe }}
-                                </p>
-                            </div>
-
-                            <div class="mb-4">
-                                <input
+                        <div class="mb-4">
+                            <input
                                     type="text"
                                     id="answerInput"
                                     name="answer"
@@ -141,96 +78,116 @@
                                     autocomplete="off"
                                     inputmode="decimal"
                                     aria-label="Answer input"
-                                >
-                                <div id="errorMsg" class="text-danger small mt-2"></div>
-                            </div>
-
-                            <div class="mt-4">
-                                <h5 class="fw-bold">Answer Preview:</h5>
-                                <div id="preview" class="answer-preview-box mt-2"></div>
-                            </div>
-
-                            <div class="mt-4 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary px-4 shadow">
-                                    Submit
-                                </button>
-                            </div>
-
+                            >
+                            <div id="errorMsg" class="text-danger small mt-2"></div>
                         </div>
+
+                        <div class="mt-4">
+                            <h5 class="fw-bold">Answer Preview:</h5>
+                            <div id="preview" class="answer-preview-box mt-2 mb-3"></div>
+                        </div>
+
+                        <h5 class="fw-bold mb-4">Student-produced response directions</h5>
+
+                        <ul class="mb-4">
+                            <li>If you find <strong>more than one correct answer</strong>, enter only one answer.</li>
+                            <li>You can enter up to 5 characters for a <strong>positive answer</strong> and up to 6
+                                characters, including the negative sign, for a <strong>negative answer</strong>.
+                            </li>
+                            <li>If your answer is a <strong>fraction</strong> that doesn’t fit in the provided space,
+                                enter the decimal equivalent.
+                            </li>
+                            <li>If your answer is a <strong>decimal</strong> that doesn’t fit in the provided space,
+                                enter it by truncating or rounding at the fourth digit.
+                            </li>
+                            <li>If your answer is a <strong>mixed number</strong>, enter it as an improper fraction or
+                                its decimal equivalent.
+                            </li>
+                            <li>Don’t enter <strong>symbols</strong> such as a percent sign, comma, or dollar sign.</li>
+                        </ul>
+
+                        <div class="mt-4 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary px-4 shadow">
+                                Submit
+                            </button>
+                        </div>
+
                     </div>
-
                 </div>
-            </form>
-        </div>
-    </section>
 
-    <footer class="bg-primary-gradient">
-        <div class="container py-4 py-lg-5">
-            <p class="mb-0">Copyright © 2026 Adaptive Score. We are not affiliated with CollegeBoard, the SAT, or any other trademark in any way.</p>
-        </div>
-    </footer>
+            </div>
+        </form>
+    </div>
+</section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='js/bold-and-bright.js') }}"></script>
+<footer class="bg-primary-gradient">
+    <div class="container py-4 py-lg-5">
+        <p class="mb-0">Copyright © 2026 Adaptive Score. We are not affiliated with CollegeBoard, the SAT, or any other
+            trademark in any way.</p>
+    </div>
+</footer>
 
-    <script>
-        const input = document.getElementById("answerInput");
-        const preview = document.getElementById("preview");
-        const errorMsg = document.getElementById("errorMsg");
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/bold-and-bright.js') }}"></script>
 
-        function validateAnswer(value) {
-            if (value === "") {
-                return "";
-            }
+<script>
+    const input = document.getElementById("answerInput");
+    const preview = document.getElementById("preview");
+    const errorMsg = document.getElementById("errorMsg");
 
-            const maxLength = value.startsWith("-") ? 6 : 5;
-
-            if (value.length > maxLength) {
-                return value.startsWith("-")
-                    ? "Negative answers can have at most 6 characters, including the negative sign."
-                    : "Positive answers can have at most 5 characters.";
-            }
-
-            const validPattern = /^-?(?:\d+(?:\.\d*)?|\.\d+|\d+\/\d+)$/;
-
-            if (!validPattern.test(value)) {
-                return "Enter an integer, decimal, or fraction such as 2/3.";
-            }
-
-            if (value.includes("/")) {
-                const denominator = Number(value.split("/")[1]);
-
-                if (denominator === 0) {
-                    return "The denominator cannot be 0.";
-                }
-            }
-
+    function validateAnswer(value) {
+        if (value === "") {
             return "";
         }
 
-        input.addEventListener("input", () => {
-            let value = input.value.replace(/\s/g, "");
+        const maxLength = value.startsWith("-") ? 6 : 5;
 
-            value = value.replace(/,/g, "");
-            value = value.replace(/[$%]/g, "");
+        if (value.length > maxLength) {
+            return value.startsWith("-")
+                ? "Negative answers can have at most 6 characters, including the negative sign."
+                : "Positive answers can have at most 5 characters.";
+        }
 
-            input.value = value;
-            preview.textContent = value;
+        const validPattern = /^-?(?:\d+(?:\.\d*)?|\.\d+|\d+\/\d+)$/;
 
-            errorMsg.textContent = validateAnswer(value);
-        });
+        if (!validPattern.test(value)) {
+            return "Enter an integer, decimal, or fraction such as 2/3.";
+        }
 
-        document.getElementById("freeResponseForm").addEventListener("submit", function (event) {
-            const value = input.value.trim();
-            const error = validateAnswer(value);
+        if (value.includes("/")) {
+            const denominator = Number(value.split("/")[1]);
 
-            if (value === "" || error) {
-                event.preventDefault();
-                errorMsg.textContent = error || "Enter an answer.";
-                input.focus();
+            if (denominator === 0) {
+                return "The denominator cannot be 0.";
             }
-        });
-    </script>
+        }
+
+        return "";
+    }
+
+    input.addEventListener("input", () => {
+        let value = input.value.replace(/\s/g, "");
+
+        value = value.replace(/,/g, "");
+        value = value.replace(/[$%]/g, "");
+
+        input.value = value;
+        preview.textContent = value;
+
+        errorMsg.textContent = validateAnswer(value);
+    });
+
+    document.getElementById("freeResponseForm").addEventListener("submit", function (event) {
+        const value = input.value.trim();
+        const error = validateAnswer(value);
+
+        if (value === "" || error) {
+            event.preventDefault();
+            errorMsg.textContent = error || "Enter an answer.";
+            input.focus();
+        }
+    });
+</script>
 </body>
 
 </html>
