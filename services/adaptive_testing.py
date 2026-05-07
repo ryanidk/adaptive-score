@@ -144,6 +144,7 @@ def process_response(user_id, question_id, response):
     user_skill = Skill.get_skill(user_id, question.skill)
 
     # Now check if the attempts is 10 (or more). Then update the difficulty level accordingly
+    # TODO replace by a constant
     # 50% (adjustable) or less accuracy - move down, 80% and up - move up
     if user_skill.attempts >= 10:
         # Placeholder difficulty stays the same.
