@@ -43,7 +43,8 @@
             <input type="hidden" id="question_id" name="question_id" value="{{ question_id }}">
             <div class="row g-0" style="min-height: 80vh;">
                 <div class="col-lg-6 border-end">
-
+                    <div class="mb-4" id="calculator" style="max-width: 80%; height: 500px; display: block; margin: auto;"></div>
+                    <img class="mb-4" style="max-width: 80%; display: block; margin: auto;" src="{{ url_for('static', filename='img/formulas.png') }}" alt="Formulas sheet">
                 </div>
 
                 <div class="col-lg-6">
@@ -108,6 +109,8 @@
 <script src="{{ url_for('static', filename='js/bold-and-bright.js') }}"></script>
 
 <script>
+    var elt = document.getElementById('calculator');
+    var calculator = Desmos.GraphingCalculator(elt);
     const errorMsg = document.getElementById("errorMsg");
 
     // Source - https://stackoverflow.com/a/13060348
