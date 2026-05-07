@@ -12,6 +12,7 @@ import json
 # Internal class import - questions, multiple choice options, correct answers
 from models.questions import Question, MultipleChoiceOption, CorrectAnswer
 
+
 # Function to process questions
 def process_question(app, question, section):
     """
@@ -34,7 +35,9 @@ def process_question(app, question, section):
             stimulus = None
 
         # Insert question into the database
-        Question.create(question["questionId"], question["external_id"], section, question["type"], question["skill_cd"], question["skill_desc"], question["difficulty"], stimulus, question["stem"], question["rationale"])
+        Question.create(question["questionId"], question["external_id"], section, question["type"],
+                        question["skill_cd"], question["skill_desc"], question["difficulty"], stimulus,
+                        question["stem"], question["rationale"])
 
         # Insert all the answers into the database of correct answers.
         for answer in question["correct_answer"]:
@@ -44,4 +47,3 @@ def process_question(app, question, section):
         if question["type"].lower() == "mcq":
             for idx, option in enumerate(question["answerOptions"]):
                 MultipleChoiceOption.create(option["id"], question["questionId"], idx, option["content"])
-

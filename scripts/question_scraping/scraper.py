@@ -19,7 +19,6 @@ import json
 english_question_bank = []
 math_question_bank = []
 
-
 # Scrape all english questions
 # Begin by making the web request
 english_json_data = {
@@ -53,7 +52,6 @@ for question in temp_english_questions:
 
     # Debug
     print("Succesfully parsed Id " + all_question_info["questionId"])
-
 
 # Scrape all math questions
 # Begin by making the web request
@@ -96,7 +94,6 @@ for question in temp_math_questions:
     else:
         # Debug
         print("Question OLD " + question["questionId"])
-
 
 # Quick count the banks
 print(f"Math questions: {len(math_question_bank)}")

@@ -215,7 +215,6 @@ class Skill:
 
         return return_skill
 
-
     @staticmethod
     def update_attempts(user_id, skill, correct_answer):
         """
