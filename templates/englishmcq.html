@@ -29,7 +29,7 @@
     </nav>
     <section class="py-4">
     <div class="container-fluid">
-        <form action="#" method="POST">
+        <form id="response" action="#" method="POST">
              <input type="hidden" id="question_id" name="question_id" value="{{ question_id }}">
             <div class="row g-0" style="min-height: 80vh;">
                 <div class="col-lg-6 border-end">
@@ -84,6 +84,9 @@
                                 </span>
                             </label>
 
+                                <div id="errorMsg" class="text-danger small mt-2"></div>
+
+
                         </div>
 
                         <div class="mt-4 d-flex justify-content-end">
@@ -106,6 +109,37 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/bold-and-bright.js') }}"></script>
+
+<script>
+    const errorMsg = document.getElementById("errorMsg");
+
+    // Source - https://stackoverflow.com/a/13060348
+    // Posted by Michael Berkowski, modified by community. See post 'Timeline' for change history
+    // Retrieved 2026-05-07, License - CC BY-SA 3.0
+
+    function isOneChecked() {
+        // All <input> tags...
+        var chx = document.getElementsByTagName('input');
+        for (var i = 0; i < chx.length; i++) {
+            // If you have more than one radio group, also check the name attribute
+            // for the one you want as in && chx[i].name == 'choose'
+            // Return true from the function on first match of a checked item
+            if (chx[i].type == 'radio' && chx[i].checked) {
+                return true;
+            }
+        }
+        // End of the loop, return false
+        return false;
+    }
+
+
+    document.getElementById("response").addEventListener("submit", function (event) {
+        if (!isOneChecked()) {
+            event.preventDefault();
+            errorMsg.textContent = "Please select an answer.";
+        }
+    });
+</script>
 
 </body>
 

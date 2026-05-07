@@ -4,7 +4,7 @@ ICS3U-01
 Ryan
 This program contains functions for adaptive testing, such as getting a random question based on any random skill.
 It also handles question submission.
-Last modified: May 5, 2026
+Last modified: May 7, 2026
 """
 
 # Random import to fetch random skill
@@ -167,4 +167,4 @@ def process_response(user_id, question_id, response):
         Skill.update_difficulty(user_id, question.skill, new_difficulty)
 
     # Now just return everything
-    return correct, accepted_answers, question.rationale
+    return correct, accepted_answers_list, question.rationale
