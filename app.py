@@ -37,10 +37,11 @@ from dotenv import load_dotenv
 
 # Internal imports, used for models, database, and blueprints
 from db import init_db_command
-from models.user import User
+from models.user import User, Skill
 from scripts.question_parsing import process_question
 from routes.auth import auth_blueprint
 from routes.adaptive_practice import adaptive_practice_blueprint
+from constants import *
 
 # Load dotenv, for use in constants. load_dotenv puts it in os.environ
 load_dotenv()
@@ -112,7 +113,23 @@ def unauthorized():
 @app.route("/")
 def index():
     if current_user.is_authenticated:
-        return render_template("index.html", name=current_user.name, email=current_user.email)
+        # Process skills for user
+        skill_list = []
+        skill_response = Skill.get_skills(current_user.id)
+
+        for skill in skill_response:
+            # Prevent division by zero
+            if skill.attempts != 0:
+                accuracy = round(100 * (skill.correct_attempts/skill.attempts))
+            else:
+                accuracy = 0
+
+            skill_list.append({"skill": SKILL_DESCRIPTIONS[skill.skill], "difficulty": skill.difficulty,
+                               "accuracy": accuracy})
+
+            skill_list = sorted(skill_list, key=lambda x: x['accuracy'])
+
+        return render_template("index.html", name=current_user.name, email=current_user.email, skill_list=skill_list)
     else:
         return render_template('login.html')
 

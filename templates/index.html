@@ -130,6 +130,19 @@
             </div>
         </div>
     </div>
+    <div class="container py-5">
+        <h4 class="fw-bold mb-5" style="text-align: center;margin-top: 16px;">Your current skill levels</h4>
+        <table>
+            <tr><th>Skill</th><th>Difficulty</th><th>Accuracy</th></tr>
+            {% for skill in skill_list %}
+            <tr>
+                <td>{{ skill['skill'] }}</td>
+                <td>{{ skill['difficulty'] }}</td>
+                <td>{{ skill['accuracy'] }}%</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </header>
 <footer class="bg-primary-gradient">
     <div class="container py-4 py-lg-5">
