@@ -203,7 +203,7 @@
         var minutes = Math.floor(curTime / 60);
         var seconds = curTime % 60;
         var formattedSeconds = String(seconds).padStart(2, '0');
-        document.getElementById("timer").innerHTML = `${minutes}:${seconds}`;
+        document.getElementById("timer").innerHTML = `${minutes}:${formattedSeconds}`;
     }
     timer = setInterval(tick, 1000);
 </script>
