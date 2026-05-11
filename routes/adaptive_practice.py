@@ -119,8 +119,8 @@ def result():
         (render_template): The template of the webpage to serve.
     """
 
-    # Plain response variable, placeholder is an error
-    practice_response = "Could not fetch result, please refresh the page and try again (Error 400)", 400
+    # Plain response variable, placeholder is a redirect
+    practice_response = redirect(url_for("adaptive_practice.practice"))
 
     # Retrieve current user id
     cur_user_id = current_user.id
