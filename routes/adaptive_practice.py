@@ -7,7 +7,7 @@ Last Modified: May 11, 2026
 """
 
 # Necessary imports
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, session
 from flask_login import (
     LoginManager,
     current_user,
@@ -20,6 +20,7 @@ import requests
 import os
 import json
 from dotenv import load_dotenv
+from requests import session
 
 from models.user import User, Skill
 from models.questions import Question, MultipleChoiceOption, CorrectAnswer
@@ -102,135 +103,154 @@ def practice():
 
     # Handle POST requests to respond to a question
     elif request.method == "POST":
-        # Retrieve current user id
-        cur_user_id = current_user.id
-
-        # Only fetch if all the fields we need are in the keys
-        if "question_id" in request.form.keys() and "answer" in request.form.keys():
-            # Make sure the question ID and the answer actually exist so we don't end up creating errors.
-            # Also, ideally we will not be vulnerable to attacks in this case.
-
-            question = Question.get_by_id(request.form["question_id"].strip())
-            answer_exists = request.form["answer"].strip() != "" and request.form["answer"] is not None
-
-            if question is not None and answer_exists:
-                # Actually respond to it if the question actually exists.
-                correct, accepted_answers, rationale = process_response(cur_user_id, question.id,
-                                                                        request.form["answer"].strip())
-
-
-                # Different render template for different types of questions
-                if question.section.lower() == "english":
-                    # English questions are ALWAYS multiple choice, so get the options
-                    options = MultipleChoiceOption.get_options_by_question_id(question.id)
-
-                    # List out options (just in case)
-                    # Also remove the beginning and end paragraph symbols
-
-                    option_A = sanitize_option(options[0].content)
-                    option_B = sanitize_option(options[1].content)
-                    option_C = sanitize_option(options[2].content)
-                    option_D = sanitize_option(options[3].content)
-
-                    # Option states: 0 = neutral, 1 = incorrect and selected, 2 = correct
-                    option_A_state = 0
-                    option_B_state = 0
-                    option_C_state = 0
-                    option_D_state = 0
-
-                    # Make sure to highlight the correct one in green
-                    match accepted_answers[0]:
-                        case "A":
-                            option_A_state = 2
-                        case "B":
-                            option_B_state = 2
-                        case "C":
-                            option_C_state = 2
-                        case "D":
-                            option_D_state = 2
-
-                    # If the user selected the wrong answer mark it in red
-                    if not correct:
-                        match request.form["answer"].strip():
-                            case "A":
-                                option_A_state = 1
-                            case "B":
-                                option_B_state = 1
-                            case "C":
-                                option_C_state = 1
-                            case "D":
-                                option_D_state = 1
-
-                    practice_response = render_template("englishmcqresponse.html", name=current_user.name,
-                                                        email=current_user.email,
-                                                        question_id=question.id, stimulus=question.stimulus,
-                                                        skill=question.skill_description,
-                                                        difficulty=question.difficulty, stem=question.stem,
-                                                        option_A=option_A, option_B=option_B, option_C=option_C,
-                                                        option_D=option_D, option_A_state=option_A_state,
-                                                        option_B_state=option_B_state, option_C_state=option_C_state,
-                                                        option_D_state=option_D_state, rationale=rationale)
-
-                elif question.section.lower() == "math" and question.type.lower() == "mcq":
-                    # English questions are ALWAYS multiple choice, so get the options
-                    options = MultipleChoiceOption.get_options_by_question_id(question.id)
-
-                    # List out options (just in case)
-                    # Also remove the beginning and end paragraph symbols
-
-                    option_A = sanitize_option(options[0].content)
-                    option_B = sanitize_option(options[1].content)
-                    option_C = sanitize_option(options[2].content)
-                    option_D = sanitize_option(options[3].content)
-
-                    # Option states: 0 = neutral, 1 = incorrect and selected, 2 = correct
-                    option_A_state = 0
-                    option_B_state = 0
-                    option_C_state = 0
-                    option_D_state = 0
-
-                    # Make sure to highlight the correct one in green
-                    match accepted_answers[0]:
-                        case "A":
-                            option_A_state = 2
-                        case "B":
-                            option_B_state = 2
-                        case "C":
-                            option_C_state = 2
-                        case "D":
-                            option_D_state = 2
-
-                    # If the user selected the wrong answer mark it in red
-                    if not correct:
-                        match request.form["answer"].strip():
-                            case "A":
-                                option_A_state = 1
-                            case "B":
-                                option_B_state = 1
-                            case "C":
-                                option_C_state = 1
-                            case "D":
-                                option_D_state = 1
-
-                    practice_response = render_template("mathmcqresponse.html", name=current_user.name,
-                                                        email=current_user.email,
-                                                        question_id=question.id,
-                                                        skill=question.skill_description,
-                                                        difficulty=question.difficulty, stem=question.stem,
-                                                        option_A=option_A, option_B=option_B, option_C=option_C,
-                                                        option_D=option_D, option_A_state=option_A_state,
-                                                        option_B_state=option_B_state, option_C_state=option_C_state,
-                                                        option_D_state=option_D_state, rationale=rationale)
-
-                elif question.section.lower() == "math" and question.type.lower() == "spr":
-                    # Just render the template
-                    practice_response = render_template("mathsprresponse.html", name=current_user.name,
-                                                        email=current_user.email,
-                                                        question_id=question.id,
-                                                        skill=question.skill_description,
-                                                        difficulty=question.difficulty, stem=question.stem,
-                                                        correct=correct, accepted_answers=accepted_answers,
-                                                        rationale=rationale, user_answer=request.form["answer"].strip())
+        session['form_data'] = request.form
+        practice_response = redirect(url_for("result"), 303)
 
     # Return practice response
     return practice_response
+
+@adaptive_practice_blueprint.route("/result")
+@login_required
+def result():
+    """
+    Handles the result route that will be redirected to should the user submit a question.
+    It handles the render template accordingly.
+
+    Returns:
+        (render_template): The template of the webpage to serve.
+    """
+
+    # Plain response variable, placeholder is an error
+    practice_response = "Could not fetch result, please refresh the page and try again (Error 400)", 400
+
+    # Retrieve current user id
+    cur_user_id = current_user.id
+
+    # Retrieve form data
+    form_data = session.pop("form_data", {})
+
+    # Only fetch if all the fields we need are in the keys and there is form data
+    if "question_id" in form_data.keys() and "answer" in form_data.keys():
+        # Make sure the question ID and the answer actually exist so we don't end up creating errors.
+        # Also, ideally we will not be vulnerable to attacks in this case.
+
+        question = Question.get_by_id(form_data["question_id"].strip())
+        answer_exists = form_data["answer"].strip() != "" and form_data["answer"] is not None
+
+        if question is not None and answer_exists:
+            # Actually respond to it if the question actually exists.
+            correct, accepted_answers, rationale = process_response(cur_user_id, question.id,
+                                                                    form_data["answer"].strip())
+
+            # Different render template for different types of questions
+            if question.section.lower() == "english":
+                # English questions are ALWAYS multiple choice, so get the options
+                options = MultipleChoiceOption.get_options_by_question_id(question.id)
+
+                # List out options (just in case)
+                # Also remove the beginning and end paragraph symbols
+
+                option_A = sanitize_option(options[0].content)
+                option_B = sanitize_option(options[1].content)
+                option_C = sanitize_option(options[2].content)
+                option_D = sanitize_option(options[3].content)
+
+                # Option states: 0 = neutral, 1 = incorrect and selected, 2 = correct
+                option_A_state = 0
+                option_B_state = 0
+                option_C_state = 0
+                option_D_state = 0
+
+                # Make sure to highlight the correct one in green
+                match accepted_answers[0]:
+                    case "A":
+                        option_A_state = 2
+                    case "B":
+                        option_B_state = 2
+                    case "C":
+                        option_C_state = 2
+                    case "D":
+                        option_D_state = 2
+
+                # If the user selected the wrong answer mark it in red
+                if not correct:
+                    match form_data["answer"].strip():
+                        case "A":
+                            option_A_state = 1
+                        case "B":
+                            option_B_state = 1
+                        case "C":
+                            option_C_state = 1
+                        case "D":
+                            option_D_state = 1
+
+                practice_response = render_template("englishmcqresponse.html", name=current_user.name,
+                                                    email=current_user.email,
+                                                    question_id=question.id, stimulus=question.stimulus,
+                                                    skill=question.skill_description,
+                                                    difficulty=question.difficulty, stem=question.stem,
+                                                    option_A=option_A, option_B=option_B, option_C=option_C,
+                                                    option_D=option_D, option_A_state=option_A_state,
+                                                    option_B_state=option_B_state, option_C_state=option_C_state,
+                                                    option_D_state=option_D_state, rationale=rationale)
+
+            elif question.section.lower() == "math" and question.type.lower() == "mcq":
+                # English questions are ALWAYS multiple choice, so get the options
+                options = MultipleChoiceOption.get_options_by_question_id(question.id)
+
+                # List out options (just in case)
+                # Also remove the beginning and end paragraph symbols
+
+                option_A = sanitize_option(options[0].content)
+                option_B = sanitize_option(options[1].content)
+                option_C = sanitize_option(options[2].content)
+                option_D = sanitize_option(options[3].content)
+
+                # Option states: 0 = neutral, 1 = incorrect and selected, 2 = correct
+                option_A_state = 0
+                option_B_state = 0
+                option_C_state = 0
+                option_D_state = 0
+
+                # Make sure to highlight the correct one in green
+                match accepted_answers[0]:
+                    case "A":
+                        option_A_state = 2
+                    case "B":
+                        option_B_state = 2
+                    case "C":
+                        option_C_state = 2
+                    case "D":
+                        option_D_state = 2
+
+                # If the user selected the wrong answer mark it in red
+                if not correct:
+                    match form_data["answer"].strip():
+                        case "A":
+                            option_A_state = 1
+                        case "B":
+                            option_B_state = 1
+                        case "C":
+                            option_C_state = 1
+                        case "D":
+                            option_D_state = 1
+
+                practice_response = render_template("mathmcqresponse.html", name=current_user.name,
+                                                    email=current_user.email,
+                                                    question_id=question.id,
+                                                    skill=question.skill_description,
+                                                    difficulty=question.difficulty, stem=question.stem,
+                                                    option_A=option_A, option_B=option_B, option_C=option_C,
+                                                    option_D=option_D, option_A_state=option_A_state,
+                                                    option_B_state=option_B_state, option_C_state=option_C_state,
+                                                    option_D_state=option_D_state, rationale=rationale)
+
+            elif question.section.lower() == "math" and question.type.lower() == "spr":
+                # Just render the template
+                practice_response = render_template("mathsprresponse.html", name=current_user.name,
+                                                    email=current_user.email,
+                                                    question_id=question.id,
+                                                    skill=question.skill_description,
+                                                    difficulty=question.difficulty, stem=question.stem,
+                                                    correct=correct, accepted_answers=accepted_answers,
+                                                    rationale=rationale, user_answer=form_data["answer"].strip())
