@@ -143,9 +143,9 @@ def process_response(user_id, question_id, response):
     # Get the skill's current attempts, update the difficulty (if applicable...)
     user_skill = Skill.get_skill(user_id, question.skill)
 
-    # Now check if the attempts is 10 (or more). Then update the difficulty level accordingly
+    # Now check if the attempts is the value set in the constants (or more). Then update the difficulty level accordingly
     # Moves down and up depending on accuracy
-    if user_skill.attempts >= 10:
+    if user_skill.attempts >= DIFFICULTY_UPDATE_QUESTION_THRESHOLD:
         # Placeholder difficulty stays the same.
         new_difficulty = user_skill.difficulty
 

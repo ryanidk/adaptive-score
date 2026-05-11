@@ -33,3 +33,6 @@ LOWER_DIFFICULTY_THRESHOLD = 0.55
 
 # Percentage accuracy threshold for the user to move up a difficulty
 UPPER_DIFFICULTY_THRESHOLD = 0.75
+
+# Difficulty update - question answer threshold
+DIFFICULTY_UPDATE_QUESTION_THRESHOLD = 10
