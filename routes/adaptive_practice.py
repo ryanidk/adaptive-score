@@ -20,7 +20,6 @@ import requests
 import os
 import json
 from dotenv import load_dotenv
-from requests import session
 
 from models.user import User, Skill
 from models.questions import Question, MultipleChoiceOption, CorrectAnswer
@@ -104,7 +103,7 @@ def practice():
     # Handle POST requests to respond to a question
     elif request.method == "POST":
         session['form_data'] = request.form
-        practice_response = redirect(url_for("result"), 303)
+        practice_response = redirect(url_for("adaptive_practice.result"), 303)
 
     # Return practice response
     return practice_response
@@ -254,3 +253,5 @@ def result():
                                                     difficulty=question.difficulty, stem=question.stem,
                                                     correct=correct, accepted_answers=accepted_answers,
                                                     rationale=rationale, user_answer=form_data["answer"].strip())
+
+    return practice_response

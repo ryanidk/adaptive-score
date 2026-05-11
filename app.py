@@ -24,7 +24,7 @@ import sqlite3
 
 # Third party libraries
 # Flask is the web server, flask_login and oauthlib handle auth, requests sends requests, dotenv loads the .env file
-from flask import Flask, redirect, request, url_for, render_template, jsonify
+from flask import Flask, redirect, request, url_for, render_template, jsonify, session
 from flask_login import (
     LoginManager,
     current_user,
