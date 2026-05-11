@@ -30,7 +30,7 @@
                 class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link" href="/"></a></li>
+                <li class="nav-item"><span id="timer"></span></li>
             </ul>
             <h1 class="fw-bold"></h1>
             <p class="navbar-text" style="margin-right: 30px;margin-bottom: 0px;">{{ name }} ({{ email }})</p><a
@@ -142,6 +142,19 @@
             errorMsg.textContent = "Please select an answer.";
         }
     });
+
+        // Timer
+    var curTime = 0;
+    var timer;
+
+    function tick() {
+        curTime++;
+        var minutes = Math.floor(curTime / 60);
+        var seconds = curTime % 60;
+        var formattedSeconds = String(seconds).padStart(2, '0');
+        document.getElementById("timer").innerHTML = `${minutes}:${seconds}`;
+    }
+    timer = setInterval(tick, 1000);
 </script>
 
 </body>
