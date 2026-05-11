@@ -108,6 +108,7 @@ def unauthorized():
     return "Unauthorized", 403
 
 
+# Main route
 @app.route("/")
 def index():
     if current_user.is_authenticated:

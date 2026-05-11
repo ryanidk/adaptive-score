@@ -4,7 +4,7 @@ ICS3U-01
 Ryan
 This program contains functions for adaptive testing, such as getting a random question based on any random skill.
 It also handles question submission.
-Last modified: May 7, 2026
+Last modified: May 11, 2026
 """
 
 # Random import to fetch random skill
@@ -14,7 +14,7 @@ import random
 import re
 
 # Internal model imports (variables and classes)
-from models.user import english_skills, math_skills
+from constants import *
 
 from models.user import Skill
 from models.questions import Question, CorrectAnswer
@@ -54,7 +54,7 @@ def get_random_question_for_user(user_id):
     """
 
     # First, pick a random skill to test
-    random_skill = random.choice(list(english_skills | math_skills))
+    random_skill = random.choice(list(ENGLISH_SKILLS | MATH_SKILLS))
 
     # Get the user's difficulty in that skill
     user_skill = Skill.get_skill(user_id, random_skill)
@@ -144,20 +144,19 @@ def process_response(user_id, question_id, response):
     user_skill = Skill.get_skill(user_id, question.skill)
 
     # Now check if the attempts is 10 (or more). Then update the difficulty level accordingly
-    # TODO replace by a constant
-    # 50% (adjustable) or less accuracy - move down, 80% and up - move up
+    # Moves down and up depending on accuracy
     if user_skill.attempts >= 10:
         # Placeholder difficulty stays the same.
         new_difficulty = user_skill.difficulty
 
         # I corrected for floating point math
-        if user_skill.correct_attempts / user_skill.attempts <= 0.55:
+        if user_skill.correct_attempts / user_skill.attempts <= LOWER_DIFFICULTY_THRESHOLD:
             # Drop the user a difficulty depending on current difficulty
             if user_skill.difficulty == "M":
                 new_difficulty = "E"
             elif user_skill.difficulty == "H":
                 new_difficulty = "M"
-        elif user_skill.correct_attempts / user_skill.attempts >= 0.75:
+        elif user_skill.correct_attempts / user_skill.attempts >= UPPER_DIFFICULTY_THRESHOLD:
             # Bump up the difficulty depending on current
             if user_skill.difficulty == "E":
                 new_difficulty = "M"

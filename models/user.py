@@ -3,17 +3,13 @@ User classes: User and Skill
 ICS3U-01
 Ryan
 This file represents the User and Skill classes used in the app
-Last modified: Apr 29, 2026
+Last modified: May 11, 2026
 """
 
 # Flask login for authentication, and db to access the database
 from flask_login import UserMixin
 from db import get_db
-
-# A list of all possible skills:
-english_skills = {'INF', 'TSP', 'FSS', 'BOU', 'COE', 'CID', 'WIC', 'CTC', 'TRA', 'SYN'}
-math_skills = {'P.B.', 'S.B.', 'Q.G.', 'H.E.', 'Q.D.', 'Q.F.', 'H.A.', 'H.B.', 'Q.B.', 'Q.A.', 'Q.E.', 'S.A.', 'P.A.',
-               'H.C.', 'S.C.', 'Q.C.', 'H.D.', 'S.D.', 'P.C.'}
+from constants import *
 
 
 class User(UserMixin):
@@ -275,7 +271,7 @@ class Skill:
         db = get_db()
 
         # For each skill in the combined skill list, insert a row into the table
-        for skill in (english_skills | math_skills):
+        for skill in (ENGLISH_SKILLS | MATH_SKILLS):
             db.execute(
                 "INSERT INTO skills (user_id, skill)"
                 " VALUES (?, ?)",

@@ -3,7 +3,7 @@ Adaptive Practice Routes
 ICS3U-01
 Ryan
 These routes handle adaptive practice (just questions, no vocab, diagnostic, or full-length test)
-Last Modified: May 7, 2026
+Last Modified: May 11, 2026
 """
 
 # Necessary imports
@@ -118,7 +118,6 @@ def practice():
                 correct, accepted_answers, rationale = process_response(cur_user_id, question.id,
                                                                         request.form["answer"].strip())
 
-                practice_response = f"{correct} {accepted_answers} {rationale}"
 
                 # Different render template for different types of questions
                 if question.section.lower() == "english":
