@@ -71,7 +71,7 @@ def practice():
                 option_C = sanitize_option(options[2].content)
                 option_D = sanitize_option(options[3].content)
 
-                practice_response = render_template("englishmcq.html", name=current_user.name, email=current_user.email,
+                practice_response = render_template("english_mcq.html", name=current_user.name, email=current_user.email,
                                                     question_id=user_question.id, stimulus=user_question.stimulus,
                                                     skill=user_question.skill_description,
                                                     difficulty=user_question.difficulty, stem=user_question.stem,
@@ -89,7 +89,7 @@ def practice():
                 option_C = sanitize_option(options[2].content)
                 option_D = sanitize_option(options[3].content)
 
-                practice_response = render_template("mathmcq.html", name=current_user.name, email=current_user.email,
+                practice_response = render_template("math_mcq.html", name=current_user.name, email=current_user.email,
                                                     question_id=user_question.id,
                                                     skill=user_question.skill_description,
                                                     difficulty=user_question.difficulty, stem=user_question.stem,
@@ -98,7 +98,7 @@ def practice():
 
             elif user_question.section.lower() == "math" and user_question.type.lower() == "spr":
                 # Just render the template
-                practice_response = render_template("mathspr.html", name=current_user.name, email=current_user.email,
+                practice_response = render_template("math_spr.html", name=current_user.name, email=current_user.email,
                                                     question_id=user_question.id,
                                                     skill=user_question.skill_description,
                                                     difficulty=user_question.difficulty, stem=user_question.stem, question_number=question_number)
@@ -195,7 +195,7 @@ def result():
                         case "D":
                             option_D_state = 1
 
-                practice_response = render_template("englishmcqresponse.html", name=current_user.name,
+                practice_response = render_template("english_mcq_response.html", name=current_user.name,
                                                     email=current_user.email,
                                                     question_id=question.id, stimulus=question.stimulus,
                                                     skill=question.skill_description,
@@ -246,7 +246,7 @@ def result():
                         case "D":
                             option_D_state = 1
 
-                practice_response = render_template("mathmcqresponse.html", name=current_user.name,
+                practice_response = render_template("math_mcq_response.html", name=current_user.name,
                                                     email=current_user.email,
                                                     question_id=question.id,
                                                     skill=question.skill_description,
@@ -258,7 +258,7 @@ def result():
 
             elif question.section.lower() == "math" and question.type.lower() == "spr":
                 # Just render the template
-                practice_response = render_template("mathsprresponse.html", name=current_user.name,
+                practice_response = render_template("math_spr_response.html", name=current_user.name,
                                                     email=current_user.email,
                                                     question_id=question.id,
                                                     skill=question.skill_description,

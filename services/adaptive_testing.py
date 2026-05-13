@@ -4,7 +4,7 @@ ICS3U-01
 Ryan
 This program contains functions for adaptive testing, such as getting a random question based on any random skill.
 It also handles question submission.
-Last modified: May 11, 2026
+Last modified: May 13, 2026
 """
 
 # Random import to fetch random skill
@@ -16,6 +16,7 @@ import re
 # Internal model imports (variables and classes)
 from constants import *
 
+# Skill and questions classes
 from models.user import Skill
 from models.questions import Question, CorrectAnswer
 
