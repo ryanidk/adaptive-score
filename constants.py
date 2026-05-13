@@ -3,7 +3,7 @@ Constants
 ICS3U-01
 Ryan
 This file represents the constants for Adaptive Score
-Last modified: May 11, 2026
+Last modified: May 13, 2026
 """
 
 # Skill sets
@@ -27,6 +27,18 @@ SKILL_DESCRIPTIONS = {'INF': 'Inferences', 'CID': 'Central Ideas and Details', '
                       'Q.G.': 'Evaluating statistical claims: Observational studies and experiments ',
                       'S.B.': 'Lines, angles, and triangles', 'S.A.': 'Area and volume',
                       'S.C.': 'Right triangles and trigonometry', 'S.D.': 'Circles'}
+
+# Skills that can be categorized together for the diagnostic
+SKILL_CATEGORIES = {
+    "Information and Ideas": ["CID", "INF", "COE"],
+    "Craft and Structure": ["WIC", "TSP", "CTC"],
+    "Expression of Ideas": ["SYN", "TRA"],
+    "Standard English Conventions": ["BOU", "FSS"],
+    "Algebra": ["H.A.", "H.B.", "H.C.", "H.D.", "H.E."],
+    "Advanced Math": ["P.A.", "P.B.", "P.C."],
+    "Problem Solving and Data Analysis": ["Q.A.", "Q.B.", "Q.C.", "Q.D.", "Q.E.", "Q.F.", "Q.G."],
+    "Geometry and Trigonometry": ["S.A.", "S.B.", "S.C.", "S.D."]
+}
 
 # Percentage accuracy threshold for the user to move down a difficulty
 LOWER_DIFFICULTY_THRESHOLD = 0.55
