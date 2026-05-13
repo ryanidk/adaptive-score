@@ -4,11 +4,11 @@ ICS3U-01
 Ryan
 These routes handle authentication through Google OAuth2 for the program.
 The Google auth system source: https://realpython.com/flask-google-login/
-Last Modified: Apr 20, 2026
+Last Modified: May 13, 2026
 """
 
 # Necessary imports
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, session
 from flask_login import (
     LoginManager,
     current_user,
@@ -162,4 +162,5 @@ def logout():
     """
 
     logout_user()
+    session.clear()
     return redirect(url_for("index"))
