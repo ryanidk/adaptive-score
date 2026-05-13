@@ -58,4 +58,61 @@ def diagnostic():
             # We still add the full diagnostic question list to the session; we only clear it from the session upon submission, as the user can just refresh the page to get through the diagnostic without actually answering any questions.
             session["diagnostic_questions"] = next_questions
 
-    # TODO finish this, add a diagnostic result route, finish the POST requests, add a way to handle the questions (probably store form data in a session)
+        next_question_id = next_questions[0].get("id", "")
+        next_question_number = next_questions[0].get("number", 1)
+
+        # Retrieve the question
+        question = Question.get_by_id(next_question_id)
+
+        # Only if there's a question do we try to process it
+        if question is not None:
+            # Different render template for different types of questions
+            if question.section.lower() == "english":
+                # English questions are ALWAYS multiple choice, so get the options
+                options = MultipleChoiceOption.get_options_by_question_id(question.id)
+
+                # List out options (just in case)
+                # Also remove the beginning and end paragraph symbols
+
+                option_A = sanitize_option(options[0].content)
+                option_B = sanitize_option(options[1].content)
+                option_C = sanitize_option(options[2].content)
+                option_D = sanitize_option(options[3].content)
+
+                diagnostic_response = render_template("english_mcq.html", name=current_user.name,
+                                                    email=current_user.email,
+                                                    question_id=question.id, stimulus=question.stimulus,
+                                                    skill=question.skill_description,
+                                                    difficulty=question.difficulty, stem=question.stem,
+                                                    option_A=option_A, option_B=option_B, option_C=option_C,
+                                                    option_D=option_D, question_number=next_question_number)
+
+            elif question.section.lower() == "math" and question.type.lower() == "mcq":
+                # Math multiple choice question
+                options = MultipleChoiceOption.get_options_by_question_id(question.id)
+
+                # List out options (just in case)
+                # Also remove the beginning and end paragraph symbols
+                option_A = sanitize_option(options[0].content)
+                option_B = sanitize_option(options[1].content)
+                option_C = sanitize_option(options[2].content)
+                option_D = sanitize_option(options[3].content)
+
+                diagnostic_response = render_template("math_mcq.html", name=current_user.name, email=current_user.email,
+                                                    question_id=question.id,
+                                                    skill=question.skill_description,
+                                                    difficulty=question.difficulty, stem=question.stem,
+                                                    option_A=option_A, option_B=option_B, option_C=option_C,
+                                                    option_D=option_D, question_number=next_question_number)
+
+            elif question.section.lower() == "math" and question.type.lower() == "spr":
+                # Just render the template
+                diagnostic_response = render_template("math_spr.html", name=current_user.name, email=current_user.email,
+                                                    question_id=question.id,
+                                                    skill=question.skill_description,
+                                                    difficulty=question.difficulty, stem=question.stem,
+                                                    question_number=next_question_number)
+
+    return diagnostic_response
+
+    # TODO finish this, add a diagnostic result route, finish the POST requests, add a way to handle the responses (probably store form data in a session)

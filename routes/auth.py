@@ -161,6 +161,6 @@ def logout():
         (redirect): Redirects to the unauthenticated index page.
     """
 
-    logout_user()
     session.clear()
+    logout_user()
     return redirect(url_for("index"))
