@@ -3,7 +3,7 @@ Adaptive Practice Routes
 ICS3U-01
 Ryan
 These routes handle adaptive practice (just questions, no vocab, diagnostic, or full-length test)
-Last Modified: May 11, 2026
+Last Modified: May 13, 2026
 """
 
 # Necessary imports
@@ -45,6 +45,9 @@ def practice():
     # Plain response variable, placeholder is an error
     practice_response = "Could not fetch practice, please refresh the page and try again (Error 400)", 400
 
+    # Retrieve current question number
+    question_number = session.get("question_number", 1)
+
     # Handle GET requests to return a random question
     if request.method == "GET":
         # Retrieve current user id
@@ -73,7 +76,7 @@ def practice():
                                                     skill=user_question.skill_description,
                                                     difficulty=user_question.difficulty, stem=user_question.stem,
                                                     option_A=option_A, option_B=option_B, option_C=option_C,
-                                                    option_D=option_D)
+                                                    option_D=option_D, question_number=question_number)
 
             elif user_question.section.lower() == "math" and user_question.type.lower() == "mcq":
                 # Math multiple choice question
@@ -91,14 +94,14 @@ def practice():
                                                     skill=user_question.skill_description,
                                                     difficulty=user_question.difficulty, stem=user_question.stem,
                                                     option_A=option_A, option_B=option_B, option_C=option_C,
-                                                    option_D=option_D)
+                                                    option_D=option_D, question_number=question_number)
 
             elif user_question.section.lower() == "math" and user_question.type.lower() == "spr":
                 # Just render the template
                 practice_response = render_template("mathspr.html", name=current_user.name, email=current_user.email,
                                                     question_id=user_question.id,
                                                     skill=user_question.skill_description,
-                                                    difficulty=user_question.difficulty, stem=user_question.stem)
+                                                    difficulty=user_question.difficulty, stem=user_question.stem, question_number=question_number)
 
     # Handle POST requests to respond to a question
     elif request.method == "POST":
@@ -128,6 +131,9 @@ def result():
     # Retrieve form data
     form_data = session.pop("form_data", {})
 
+    # Retrieve question number
+    question_number = session.get("question_number", 1)
+
     # Only fetch if all the fields we need are in the keys and there is form data
     if "question_id" in form_data.keys() and "answer" in form_data.keys():
         # Make sure the question ID and the answer actually exist so we don't end up creating errors.
@@ -140,6 +146,12 @@ def result():
             # Actually respond to it if the question actually exists.
             correct, accepted_answers, rationale = process_response(cur_user_id, question.id,
                                                                     form_data["answer"].strip())
+
+            # Increment question number by 1 if it exists
+            if "question_number" not in session.keys():
+                session["question_number"] = 2
+            else:
+                session["question_number"] += 1
 
             # Different render template for different types of questions
             if question.section.lower() == "english":
@@ -191,7 +203,7 @@ def result():
                                                     option_A=option_A, option_B=option_B, option_C=option_C,
                                                     option_D=option_D, option_A_state=option_A_state,
                                                     option_B_state=option_B_state, option_C_state=option_C_state,
-                                                    option_D_state=option_D_state, rationale=rationale)
+                                                    option_D_state=option_D_state, rationale=rationale, question_number=question_number)
 
             elif question.section.lower() == "math" and question.type.lower() == "mcq":
                 # English questions are ALWAYS multiple choice, so get the options
@@ -242,7 +254,7 @@ def result():
                                                     option_A=option_A, option_B=option_B, option_C=option_C,
                                                     option_D=option_D, option_A_state=option_A_state,
                                                     option_B_state=option_B_state, option_C_state=option_C_state,
-                                                    option_D_state=option_D_state, rationale=rationale)
+                                                    option_D_state=option_D_state, rationale=rationale, question_number=question_number)
 
             elif question.section.lower() == "math" and question.type.lower() == "spr":
                 # Just render the template
@@ -252,6 +264,6 @@ def result():
                                                     skill=question.skill_description,
                                                     difficulty=question.difficulty, stem=question.stem,
                                                     correct=correct, accepted_answers=accepted_answers,
-                                                    rationale=rationale, user_answer=form_data["answer"].strip())
+                                                    rationale=rationale, user_answer=form_data["answer"].strip(), question_number=question_number)
 
     return practice_response
