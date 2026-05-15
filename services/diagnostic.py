@@ -109,7 +109,7 @@ def process_diagnostic_responses(user_id, responses):
         accepted_answers_list = [ca.answer for ca in accepted_answers]
 
         # Check if it's a correct response and if it is update the dict
-        correct = check_correct_response(accepted_answers_list, response, question.type)
+        correct = check_correct_response(accepted_answers_list, response_text, question.type)
 
         # Update the dictionary if applicable
         if correct:
