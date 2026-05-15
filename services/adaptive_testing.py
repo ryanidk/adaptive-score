@@ -146,10 +146,8 @@ def process_response(user_id, question_id, response):
     # Clear whitespace from response
     response = response.strip().replace(" ", "")
 
-    # Get the question type
+    # Get the question
     question = Question.get_by_id(question_id)
-
-    question_type = question.type  # either spr or mcq
 
     # Get the valid answers
     accepted_answers = CorrectAnswer.get_by_question_id(question_id)
@@ -157,8 +155,8 @@ def process_response(user_id, question_id, response):
     # Convert them to a list
     accepted_answers_list = [ca.answer for ca in accepted_answers]
 
-    # Generic correct = False
-    correct = check_correct_response(accepted_answers_list, response, question_type)
+    # Check correct response
+    correct = check_correct_response(accepted_answers_list, response, question.type)
 
     # Now update the skill!
     Skill.update_attempts(user_id, question.skill, correct)
