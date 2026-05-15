@@ -4,7 +4,7 @@ ICS3U-01
 Ryan
 This program contains functions for adaptive testing, such as getting a random question based on any random skill.
 It also handles question submission.
-Last modified: May 13, 2026
+Last modified: May 15, 2026
 """
 
 # Random import to fetch random skill
@@ -41,6 +41,62 @@ def sanitize_option(option_text):
     sanitized_text = sanitized_text.replace('</p>', '').strip()
 
     return sanitized_text
+
+
+def check_correct_response(accepted_answers_list, response, question_type):
+    """
+    Utility function to check if the response given is accepted or not.
+
+    Args:
+        accepted_answers_list (list): A list with the correct answers
+        response (str): The user's response
+        question_type (str): The question type, either "mcq" or "spr"
+
+    Returns:
+        correct (bool): Whether the answer was correct or not
+    """
+
+    # Generic correct = False
+    correct = False
+
+    # First, just straight up check if the answer is in the list of correct answers. If so move on.
+    if response in accepted_answers_list:
+        correct = True
+    # If it's not (and the question is a student produced response) start sanitizing it to try to find a match within 0.001
+    elif question_type == "spr":
+        # Check that the answer can be converted into a float in the first place.
+        # Fractions do not need a normalized answer...
+        floating_response = None
+
+        try:
+            floating_response = float(response)
+        except ValueError:
+            # It must be a fraction or invalid, so pass
+            correct = False
+
+        # Set a current index to iterate over the list
+        current_index = 0
+
+        # If there's a floating response just iterate over each of the answers to find one within the margin...
+        if floating_response is not None:
+            while not correct and current_index < len(accepted_answers_list):
+                answer = accepted_answers_list[current_index]
+
+                floating_answer = None
+
+                # Try to convert to a float, otherwise just pass
+                try:
+                    floating_answer = float(answer)
+                except ValueError:
+                    # Move on with the day
+                    continue
+
+                # Check the answer float for the student produced response answer margin
+                if abs(floating_answer - floating_response) <= SPR_ANSWER_MARGIN:
+                    correct = True
+                    # This will end the loop here
+
+    return correct
 
 
 def get_random_question_for_user(user_id):
@@ -102,41 +158,7 @@ def process_response(user_id, question_id, response):
     accepted_answers_list = [ca.answer for ca in accepted_answers]
 
     # Generic correct = False
-    correct = False
-
-    # First, just straight up check if the answer is in the list of correct answers. If so move on.
-    if response in accepted_answers_list:
-        correct = True
-    # If it's not (and the question is a student produced response) start sanitizing it to try to find a match within 0.001
-    elif question_type == "spr":
-        # Check that the answer can be converted into a float in the first place.
-        # Fractions do not need a normalized answer...
-        floating_response = None
-
-        try:
-            floating_response = float(response)
-        except ValueError:
-            # It must be a fraction or invalid, so pass
-            correct = False
-
-        # If there's a floating response just iterate over each of the answers to find one within the margin...
-        if floating_response is not None:
-            for answer in accepted_answers_list:
-                floating_answer = None
-
-                # Try to convert to a float, otherwise just pass
-                try:
-                    floating_answer = float(answer)
-                except ValueError:
-                    # Move on with the day
-                    continue
-
-                # Check the answer float for a margin of 0.001
-                if abs(floating_answer - floating_response) <= 0.001:
-                    correct = True
-
-                    # The dreaded break. I know you hate it but there's no better way to break out of the loop.
-                    break
+    correct = check_correct_response(accepted_answers_list, response, question_type)
 
     # Now update the skill!
     Skill.update_attempts(user_id, question.skill, correct)

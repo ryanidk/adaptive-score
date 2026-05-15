@@ -3,7 +3,7 @@ Constants
 ICS3U-01
 Ryan
 This file represents the constants for Adaptive Score
-Last modified: May 13, 2026
+Last modified: May 15, 2026
 """
 
 # Skill sets
@@ -48,3 +48,6 @@ UPPER_DIFFICULTY_THRESHOLD = 0.75
 
 # Difficulty update - question answer threshold
 DIFFICULTY_UPDATE_QUESTION_THRESHOLD = 10
+
+# Margin of error for student produced response questions
+SPR_ANSWER_MARGIN = 0.001 # plus or minus 0.001
