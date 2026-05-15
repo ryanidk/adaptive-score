@@ -61,7 +61,7 @@ def check_correct_response(accepted_answers_list, response, question_type):
         if floating_response is not None:
             while not correct and current_index < len(accepted_answers_list):
                 answer = accepted_answers_list[current_index]
-
+                current_index += 1
                 floating_answer = None
 
                 # Try to convert to a float, otherwise just pass
