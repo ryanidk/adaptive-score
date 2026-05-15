@@ -53,11 +53,11 @@
         <h4 class="fw-bold mb-5" style="text-align: center;margin-top: 16px;">Your updated skill levels</h4>
         <table>
             <tr><th>Category</th><th>New Difficulty</th><th>Answered Correctly</th></tr>
-            {% for category in category_list %}
+            {% for category, result in results.items() %}
             <tr>
-                <td>{{ category['category'] }}</td>
-                <td>{{ category['difficulty'] }}</td>
-                <td>{{ category['accuracy'] }}</td>
+                <td>{{ category }}</td>
+                <td>{{ result['difficulty'] }}</td>
+                <td>{{ result['correct_responses'] }}/2</td>
             </tr>
             {% endfor %}
         </table>
