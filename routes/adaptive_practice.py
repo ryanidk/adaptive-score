@@ -119,7 +119,7 @@ def result():
     It handles the render template accordingly.
 
     Returns:
-        (render_template): The template of the webpage to serve.
+        (render_template): The template of the webpage to serve. CAN ALSO BE A REDIRECT
     """
 
     # Plain response variable, placeholder is a redirect
