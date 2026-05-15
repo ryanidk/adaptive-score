@@ -136,8 +136,9 @@ def diagnostic():
             if responses_so_far == [] or not responses_so_far:
                 session["diagnostic_responses"] = [{"question_id": question.id, "response": form_data["answer"].strip()}]
             else:
-                # Just append it
-                session["diagnostic_responses"].append({"question_id": question.id, "response": form_data["answer"].strip()})
+                # Reassign
+                responses_so_far.append({"question_id": question.id, "response": form_data["answer"].strip()})
+                session["diagnostic_responses"] = responses_so_far
 
             # Now pop from the diagnostic questions
             # First we need to ensure the list is not empty before we do this, no blindly assuming!
