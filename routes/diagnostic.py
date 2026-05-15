@@ -142,7 +142,7 @@ def diagnostic():
             # Now pop from the diagnostic questions
             # First we need to ensure the list is not empty before we do this, no blindly assuming!
             if session["diagnostic_questions"] != [] and session["diagnostic_questions"] is not None:
-                last_question = session["diagnostic_questions"].pop(0)
+                del session["diagnostic_questions"][0]
 
             # Now check again if it's empty. If so redirect to the responses, if not just keep on going with the questions.
             if session["diagnostic_questions"] == [] or not session["diagnostic_questions"]:
