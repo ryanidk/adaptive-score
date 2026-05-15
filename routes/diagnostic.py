@@ -175,7 +175,7 @@ def diagnostic_complete():
     diagnostic_responses = session.pop("diagnostic_responses", [])
 
     # Only fetch if the list ain't empty and all the keys we need are there
-    if diagnostic_responses != [] and diagnostic_responses and all("question_id" and "response" in r.keys() for r in diagnostic_responses):
+    if diagnostic_responses != [] and diagnostic_responses and all("question_id" in r.keys() and "response" in r.keys() for r in diagnostic_responses):
         # It is safe to therefore assume that the values are safe and will not error out, as we have checked them previously
         # If the user edits the session, it will just be reset, as it is signed with a secret key.
         # This is a quite naive security implementation, but if I do end up releasing it, I will change it.

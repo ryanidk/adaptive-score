@@ -45,7 +45,7 @@ def generate_diagnostic():
         question_1 = Question.get_by_skill_and_difficulty(skill_1, "M")
 
         # There is a possibility that it will be None, given not all skills have a medium difficulty question (they all have hard questions though). Let's while loop to prevent that.
-        while question_1 is None:
+        if question_1 is None:
             # Find two random categories to test with two different difficulties: Medium and hard
             skill_1 = random.choice(SKILL_CATEGORIES[category])
 
