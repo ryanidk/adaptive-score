@@ -3,7 +3,7 @@ User classes: User and Skill
 ICS3U-01
 Ryan
 This file represents the User and Skill classes used in the app
-Last modified: May 11, 2026
+Last modified: May 15, 2026
 """
 
 # Flask login for authentication, and db to access the database
@@ -240,6 +240,29 @@ class Skill:
     def update_difficulty(user_id, skill, difficulty):
         """
         Static method: Updates the difficulty of a specified skill to a new difficulty and resets attempts.
+
+        Args:
+            user_id (str): The user ID to update the skills for/
+            skill (str): The ID representing the skill to update, i.e., INF
+            difficulty (str): The difficulty to update the user to, either E, M, or H.
+        """
+
+        # Fetch database
+        db = get_db()
+
+        # Update skills table
+        db.execute(
+            "UPDATE skills SET difficulty = ?, attempts = 0, correct_attempts = 0 WHERE user_id = ? AND skill = ?",
+            (difficulty, user_id, skill))
+
+        # Commit to database
+        db.commit()
+
+    @staticmethod
+    def update_difficulty_without_commit(user_id, skill, difficulty):
+        """
+        Static method: Updates the difficulty of a specified skill to a new difficulty and resets attempts.
+        It does it WITHOUT committing to the database.
 
         Args:
             user_id (str): The user ID to update the skills for/

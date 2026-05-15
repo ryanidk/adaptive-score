@@ -13,6 +13,7 @@ import random
 
 # Constants import
 from constants import *
+from db import get_db
 
 # Skill and questions classes
 from models.user import Skill
@@ -124,7 +125,10 @@ def process_diagnostic_responses(user_id, responses):
     # Now update the user's skill difficulties
     for category, details in results.items():
         for skill in SKILL_CATEGORIES[category]:
-            Skill.update_difficulty(user_id, skill, details["difficulty"])
+            Skill.update_difficulty_without_commit(user_id, skill, details["difficulty"])
+
+    # Commit to the DB now
+    get_db().commit()
 
     # Return the results
     return results
