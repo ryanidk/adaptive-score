@@ -147,10 +147,10 @@ def diagnostic():
             # Now check again if it's empty. If so redirect to the responses, if not just keep on going with the questions.
             if session["diagnostic_questions"] == [] or not session["diagnostic_questions"]:
                 # We're done!
-                diagnostic_response = redirect(url_for("diagnostic.diagnostic_complete"))
+                diagnostic_response = redirect(url_for("diagnostic.diagnostic_complete"), 303)
             else:
                 # Continue redirecting to diagnostic response
-                diagnostic_response = redirect(url_for("diagnostic.diagnostic"))
+                diagnostic_response = redirect(url_for("diagnostic.diagnostic"), 303)
 
     return diagnostic_response
 
