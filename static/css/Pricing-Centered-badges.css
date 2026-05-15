@@ -135,3 +135,10 @@ th, td {
     padding-bottom: 10px;
     text-align: left;
 }
+
+.choice-box p,
+.mcq-correct p,
+.mcq-incorrect p,
+.mcq-neutral p {
+    margin-bottom: 0;
+}

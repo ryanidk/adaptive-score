@@ -23,26 +23,6 @@ from models.questions import Question, CorrectAnswer
 
 # All functions
 
-def sanitize_option(option_text):
-    """
-    Sanitizes an option by removing the HTML paragraph at the start.
-
-    Args:
-        option_text (str): The text to sanitize with the HTML
-
-    Returns:
-        sanitized_text (str): The sanitized text without the beginning paragraph mark
-    """
-
-    # Remove start paragraph and also consider if there are any other characters for style, etc.
-    sanitized_text = re.sub(r'<p\s*[^>]*>', '', option_text)
-
-    # Replace ending keyword
-    sanitized_text = sanitized_text.replace('</p>', '').strip()
-
-    return sanitized_text
-
-
 def check_correct_response(accepted_answers_list, response, question_type):
     """
     Utility function to check if the response given is accepted or not.

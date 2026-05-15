@@ -3,7 +3,7 @@ Adaptive Practice Routes
 ICS3U-01
 Ryan
 These routes handle adaptive practice (just questions, no vocab, diagnostic, or full-length test)
-Last Modified: May 13, 2026
+Last Modified: May 15, 2026
 """
 
 # Necessary imports
@@ -23,7 +23,7 @@ from dotenv import load_dotenv
 
 from models.user import User, Skill
 from models.questions import Question, MultipleChoiceOption, CorrectAnswer
-from services.adaptive_testing import get_random_question_for_user, process_response, sanitize_option
+from services.adaptive_testing import get_random_question_for_user, process_response
 
 # Set up blueprint
 adaptive_practice_blueprint = Blueprint('adaptive_practice', __name__, template_folder='../templates')
@@ -66,10 +66,10 @@ def practice():
                 # List out options (just in case)
                 # Also remove the beginning and end paragraph symbols
 
-                option_A = sanitize_option(options[0].content)
-                option_B = sanitize_option(options[1].content)
-                option_C = sanitize_option(options[2].content)
-                option_D = sanitize_option(options[3].content)
+                option_A = options[0].content
+                option_B = options[1].content
+                option_C = options[2].content
+                option_D = options[3].content
 
                 practice_response = render_template("english_mcq.html", name=current_user.name, email=current_user.email,
                                                     question_id=user_question.id, stimulus=user_question.stimulus,
@@ -84,10 +84,10 @@ def practice():
 
                 # List out options (just in case)
                 # Also remove the beginning and end paragraph symbols
-                option_A = sanitize_option(options[0].content)
-                option_B = sanitize_option(options[1].content)
-                option_C = sanitize_option(options[2].content)
-                option_D = sanitize_option(options[3].content)
+                option_A = options[0].content
+                option_B = options[1].content
+                option_C = options[2].content
+                option_D = options[3].content
 
                 practice_response = render_template("math_mcq.html", name=current_user.name, email=current_user.email,
                                                     question_id=user_question.id,
@@ -161,10 +161,10 @@ def result():
                 # List out options (just in case)
                 # Also remove the beginning and end paragraph symbols
 
-                option_A = sanitize_option(options[0].content)
-                option_B = sanitize_option(options[1].content)
-                option_C = sanitize_option(options[2].content)
-                option_D = sanitize_option(options[3].content)
+                option_A = options[0].content
+                option_B = options[1].content
+                option_C = options[2].content
+                option_D = options[3].content
 
                 # Option states: 0 = neutral, 1 = incorrect and selected, 2 = correct
                 option_A_state = 0
@@ -212,10 +212,10 @@ def result():
                 # List out options (just in case)
                 # Also remove the beginning and end paragraph symbols
 
-                option_A = sanitize_option(options[0].content)
-                option_B = sanitize_option(options[1].content)
-                option_C = sanitize_option(options[2].content)
-                option_D = sanitize_option(options[3].content)
+                option_A = options[0].content
+                option_B = options[1].content
+                option_C = options[2].content
+                option_D = options[3].content
 
                 # Option states: 0 = neutral, 1 = incorrect and selected, 2 = correct
                 option_A_state = 0

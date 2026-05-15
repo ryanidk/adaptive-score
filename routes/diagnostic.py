@@ -23,7 +23,6 @@ from dotenv import load_dotenv
 
 from models.user import User, Skill
 from models.questions import Question, MultipleChoiceOption, CorrectAnswer
-from services.adaptive_testing import sanitize_option
 from services.diagnostic import generate_diagnostic, process_diagnostic_responses
 
 # Set up blueprint
@@ -77,10 +76,10 @@ def diagnostic():
                 # List out options (just in case)
                 # Also remove the beginning and end paragraph symbols
 
-                option_A = sanitize_option(options[0].content)
-                option_B = sanitize_option(options[1].content)
-                option_C = sanitize_option(options[2].content)
-                option_D = sanitize_option(options[3].content)
+                option_A = options[0].content
+                option_B = options[1].content
+                option_C = options[2].content
+                option_D = options[3].content
 
                 diagnostic_response = render_template("english_mcq.html", name=current_user.name,
                                                     email=current_user.email,
@@ -96,10 +95,10 @@ def diagnostic():
 
                 # List out options (just in case)
                 # Also remove the beginning and end paragraph symbols
-                option_A = sanitize_option(options[0].content)
-                option_B = sanitize_option(options[1].content)
-                option_C = sanitize_option(options[2].content)
-                option_D = sanitize_option(options[3].content)
+                option_A = options[0].content
+                option_B = options[1].content
+                option_C = options[2].content
+                option_D = options[3].content
 
                 diagnostic_response = render_template("math_mcq.html", name=current_user.name, email=current_user.email,
                                                     question_id=question.id,
